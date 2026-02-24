@@ -9,7 +9,7 @@ It demonstrates practical implementation of concepts learned during the lab sess
 ## 🛠️ Technologies Used
 - HTML
 - CSS
-- JavaScript
+- JReact
 - Git & GitHub
 
 ---
