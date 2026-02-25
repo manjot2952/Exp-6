@@ -31,7 +31,7 @@ In controlled components:
 - Form submission is handled through an event handler.
 
 ## 🔧 Procedure
-1. Create a React application using `create-react-app` or Vite.
+1. Create a React application.
 2. Create a form component.
 3. Use `useState` to store input values.
 4. Handle input change events.
@@ -47,18 +47,18 @@ To validate form inputs on the client side before submission.
 ## 📖 Theory
 Client-side validation ensures correctness of user data and provides immediate feedback without server interaction. It improves user experience and reduces unnecessary server requests.
 
-Validation checks may include:
-- Required fields
-- Minimum/maximum length
+Validation includes:
 - Email format validation
 - Password strength validation
-- Numeric input validation
+- Required field checks
+- Displaying error messages dynamically
 
 ## 🔧 Procedure
 1. Create form inputs.
-2. Define validation conditions.
-3. Display error messages.
-4. Allow submission only for valid data.
+2. Define validation patterns using Regular Expressions.
+3. Validate input on change.
+4. Show success/error messages.
+5. Allow submission only if all validations pass.
 
 ---
 
@@ -77,18 +77,18 @@ Validation checks may include:
 
 # 📸 Screenshots
 
-### 🔹 Experiment 1 Output
-![Experiment 1](screenshots/Screenshot%202026-02-24%20204701.png)
+### 🔹 Experiment 1 – Controlled Form
+![Experiment 1](screenshots/Screenshot%202026-02-25%20100834.png)
 
 ---
 
-### 🔹 Experiment 2 Output
-![Experiment 2](screenshots/Screenshot%202026-02-24%20204722.png)
+### 🔹 Experiment 2 – Validation Output
+![Experiment 2](screenshots/Screenshot%202026-02-25%20100846.png)
 
 ---
 
-### 🔹 Validation Output
-![Validation Output](screenshots/Screenshot%202026-02-24%20205451.png)
+### 🔹 Login Validation Page
+![Login Validation](screenshots/Screenshot%202026-02-25%20101321.png)
 
 ---
 
