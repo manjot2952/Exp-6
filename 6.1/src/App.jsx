@@ -1,149 +1,165 @@
-import React, { useState } from "react";
-import "./App.css";
+import { useState } from 'react'
+import './App.css'
 
 function App() {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    gender: "",
-    address: "",
-    dob: "",
-    state: "",
+
+  const initialFormState = {
+    firstName: '',
+    lastName: '',
+    address: '',
+    gender: '',
+    DoB: '',
     skills: []
-  });
+  }
 
-  // handle input change
+  const [formData, setFormData] = useState(initialFormState)
+
+  // Get today's date in YYYY-MM-DD format
+  const today = new Date().toISOString().split('T')[0]
+
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target
 
-    setFormData({
-      ...formData,
-      [name]: value
-    });
-  };
-
-  // handle checkbox
-  const handleSkillChange = (e) => {
-    const { value, checked } = e.target;
-
-    if (checked) {
-      setFormData({
-        ...formData,
-        skills: [...formData.skills, value]
-      });
+    if (type === 'checkbox') {
+      setFormData(prev => ({
+        ...prev,
+        skills: checked
+          ? [...prev.skills, value]
+          : prev.skills.filter(skill => skill !== value)
+      }))
     } else {
-      setFormData({
-        ...formData,
-        skills: formData.skills.filter(skill => skill !== value)
-      });
+      setFormData(prev => ({
+        ...prev,
+        [name]: value
+      }))
     }
-  };
+  }
 
-  // submit form
   const handleSubmit = (e) => {
-    e.preventDefault();
-    alert(JSON.stringify(formData, null, 2));
-  };
+    e.preventDefault()
+
+    const details = `
+Submitted Details:
+
+First Name: ${formData.firstName}
+Last Name: ${formData.lastName}
+Address: ${formData.address}
+Gender: ${formData.gender}
+Date of Birth: ${formData.DoB}
+Skills: ${formData.skills.length > 0 ? formData.skills.join(', ') : 'None'}
+    `
+
+    alert(details)
+    console.log(formData)
+  }
+
+  const handleClear = () => {
+    setFormData(initialFormState)
+  }
 
   return (
-    <div className="container">
-      <h2>Registration Form</h2>
+    <form onSubmit={handleSubmit}>
+      <fieldset>
 
-      <form onSubmit={handleSubmit} className="form">
-
+        {/* First Name */}
+        <label>First Name</label>
         <input
           type="text"
           name="firstName"
-          placeholder="First Name"
+          value={formData.firstName}
           onChange={handleChange}
+          placeholder="Enter your first name"
+          required
         />
 
+        {/* Last Name */}
+        <label>Last Name</label>
         <input
           type="text"
           name="lastName"
-          placeholder="Last Name"
+          value={formData.lastName}
           onChange={handleChange}
+          placeholder="Enter your last name"
+          required
+        />
+
+        {/* Address */}
+        <label>Address</label>
+        <textarea
+          name="address"
+          value={formData.address}
+          onChange={handleChange}
+          placeholder="Enter your address"
+          rows="3"
+          required
         />
 
         {/* Gender */}
+        <label>Gender</label>
         <div className="group">
-  <label className="group-title">Gender:</label>
-  <div className="options">
-    <label><input type="radio" name="gender" value="Male" onChange={handleChange}/> Male</label>
-    <label><input type="radio" name="gender" value="Female" onChange={handleChange}/> Female</label>
-    <label><input type="radio" name="gender" value="Other" onChange={handleChange}/> Other</label>
-  </div>
-</div>
+          <input
+            type="radio"
+            name="gender"
+            value="Male"
+            checked={formData.gender === 'Male'}
+            onChange={handleChange}
+            required
+          />
+          <label>Male</label>
 
-        {/* Address */}
-        <textarea
-          name="address"
-          placeholder="Address"
-          rows="3"
-          onChange={handleChange}
-        ></textarea>
-
-        {/* DOB */}
-        <div className="group">
-          <label>Date of Birth:</label>
-          <input type="date" name="dob" onChange={handleChange} />
+          <input
+            type="radio"
+            name="gender"
+            value="Female"
+            checked={formData.gender === 'Female'}
+            onChange={handleChange}
+          />
+          <label>Female</label>
         </div>
 
-        {/* State Dropdown */}
-        <select name="state" onChange={handleChange}>
-          <option value="">Select State</option>
-          <option>Andhra Pradesh</option>
-<option>Arunachal Pradesh</option>
-<option>Assam</option>
-<option>Bihar</option>
-<option>Chhattisgarh</option>
-<option>Goa</option>
-<option>Gujarat</option>
-<option>Haryana</option>
-<option>Himachal Pradesh</option>
-<option>Jharkhand</option>
-<option>Karnataka</option>
-<option>Kerala</option>
-<option>Madhya Pradesh</option>
-<option>Maharashtra</option>
-<option>Manipur</option>
-<option>Meghalaya</option>
-<option>Mizoram</option>
-<option>Nagaland</option>
-<option>Odisha</option>
-<option>Punjab</option>
-<option>Rajasthan</option>
-<option>Sikkim</option>
-<option>Tamil Nadu</option>
-<option>Telangana</option>
-<option>Tripura</option>
-<option>Uttar Pradesh</option>
-<option>Uttarakhand</option>
-<option>West Bengal</option>
-<option>Andaman and Nicobar Islands</option>
-<option>Chandigarh</option>
-<option>Dadra and Nagar Haveli and Daman and Diu</option>
-<option>Delhi</option>
-<option>Jammu and Kashmir</option>
-<option>Ladakh</option>
-<option>Lakshadweep</option>
-<option>Puducherry</option>
-        </select>
+        {/* Date of Birth */}
+        <label>Date of Birth</label>
+        <input
+          type="date"
+          name="DoB"
+          value={formData.DoB}
+          onChange={handleChange}
+          max={today}         // Prevents future dates
+          min="1900-01-01"    // Optional lower limit
+          required
+        />
 
         {/* Skills */}
+        <label>Skills</label>
         <div className="group">
-  <label className="group-title">Skills:</label>
-  <div className="options">
-    <label><input type="checkbox" value="Python" onChange={handleSkillChange}/> Python</label>
-    <label><input type="checkbox" value="Java" onChange={handleSkillChange}/> Java</label>
-    <label><input type="checkbox" value="C++" onChange={handleSkillChange}/> C++</label>
-  </div>
-</div>
+          <input type="checkbox" value="HTML" onChange={handleChange} />
+          <label>HTML</label>
 
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  );
+          <input type="checkbox" value="CSS" onChange={handleChange} />
+          <label>CSS</label>
+
+          <input type="checkbox" value="JavaScript" onChange={handleChange} />
+          <label>JavaScript</label>
+
+          <input type="checkbox" value="React" onChange={handleChange} />
+          <label>React</label>
+
+          <input type="checkbox" value="Python" onChange={handleChange} />
+          <label>Python</label>
+
+          <input type="checkbox" value="Java" onChange={handleChange} />
+          <label>Java</label>
+        </div>
+
+        {/* Buttons */}
+        <div className="button-group">
+          <input type="submit" value="Submit" />
+          <input type="button" value="Clear Form" onClick={handleClear} />
+        </div>
+
+      </fieldset>
+    </form>
+  )
 }
 
-export default App;
+export default App
